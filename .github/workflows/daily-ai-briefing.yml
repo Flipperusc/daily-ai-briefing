@@ -24,6 +24,17 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Check OpenAI key exists
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python - <<'PY'
+          import os
+          key = os.getenv("OPENAI_API_KEY", "")
+          print("OPENAI_API_KEY exists:", bool(key))
+          print("OPENAI_API_KEY length:", len(key))
+          PY
+
       - name: Generate and send briefing
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
