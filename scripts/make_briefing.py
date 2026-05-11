@@ -8,7 +8,7 @@ import resend
 from openai import OpenAI
 
 
-TIMEZONE = "America/Los_Angeles"
+TIMEZONE = "Asia/Shanghai"
 MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
 
 EMAIL_FROM = os.getenv("EMAIL_FROM", "AI Briefing <onboarding@resend.dev>")
