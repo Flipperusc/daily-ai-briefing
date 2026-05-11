@@ -1,21 +1,42 @@
-# Daily AI Briefing Workflow
-name: daily-ai-briefing
+name: Daily AI Briefing
 
 on:
-  schedule:
-    - cron: '0 8 * * *'  # Run daily at 8 AM UTC
   workflow_dispatch:
+  schedule:
+    - cron: "17 15 * * *"
+
+permissions:
+  contents: write
 
 jobs:
-  briefing:
+  generate-and-send:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Check out repository
+        uses: actions/checkout@v4
+
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.12"
+
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Generate briefing
+
+      - name: Generate and send briefing
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          OPENAI_MODEL: gpt-5
         run: python scripts/make_briefing.py
+
+      - name: Commit report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add reports/*.md
+          git commit -m "Add daily AI briefing" || echo "No changes to commit"
+          git push
