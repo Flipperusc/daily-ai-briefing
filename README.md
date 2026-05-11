@@ -1,6 +1,3 @@
-下面是一份可以直接复制到 `README.md` 的详细版本。你可以根据自己的仓库名、邮箱、模型名再微调。
-
-````markdown
 # Daily AI Briefing
 
 一个自动生成并发送 AI 行业日报的 GitHub Actions 项目。
@@ -61,7 +58,6 @@ daily-ai-briefing/
 │   └── make_briefing.py
 ├── requirements.txt
 └── README.md
-````
 
 ### 目录说明
 
